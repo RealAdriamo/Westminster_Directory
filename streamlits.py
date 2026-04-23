@@ -22,9 +22,9 @@ role1, role2, role3, role4 = st.columns([0.2, 0.2, 0.2, 0.4])
 with role1:
     st.text("Type of Role:")
 with role2:
-    faculty = st.checkbox('Faculty', value=True)
+    faculty = st.checkbox('Faculty')
 with role3:
-    staff = st.checkbox('Staff', value=True)
+    staff = st.checkbox('Staff')
 
 if faculty and not staff:
     role_bool = data['Role'].str.contains('Faculty', case=False, na=False)
@@ -39,9 +39,9 @@ contract1, contract2, contract3, contract4 = st.columns([0.2, 0.2, 0.2, 0.4])
 with contract1:
     st.text("Contract type:")
 with contract2:
-    full = st.checkbox('Full-time', value=True)
+    full = st.checkbox('Full-time')
 with contract3:
-    part = st.checkbox('Part-time', value=True)
+    part = st.checkbox('Part-time')
 
 if full and not part:
     contract_bool = data['Contract'] == 'Full-time'
@@ -56,13 +56,13 @@ rank1, rank2, rank3, rank4, rank5, rank6 = st.columns([0.2,0.2,0.2,0.2,0.2,0.4])
 with rank1:
     st.text("Faculty Rank:")
 with rank2:
-    assistant = st.checkbox('Assistant',value=True)
+    assistant = st.checkbox('Assistant')
 with rank3:
-    associate = st.checkbox('Associate',value=True)
+    associate = st.checkbox('Associate')
 with rank4:
-    professor = st.checkbox('Professor',value=True)
+    professor = st.checkbox('Professor')
 with rank5:
-    other = st.checkbox('Other',value=True)
+    other = st.checkbox('Other')
 
 pos = data['Position'].fillna('')
 
@@ -109,6 +109,7 @@ with name1:
     name = st.text_input(label='Enter name:')
 with name2:
     regex_on = st.checkbox('Enable Regex')
+    all = st.checkbox('Enable All', value=True)
 
 if name == '':
     name_bool = data['Name'].str.match(r'.*', na=False)
@@ -120,7 +121,11 @@ else:
 
 all_conditions = dept_bool & role_bool & contract_bool & rank_bool & name_bool
 
-if data[all_conditions].shape[0] == 0 or (name =='' and (faculty + staff + full + part + assistant + associate + professor + other == 0)):
+if all:
+    st.dataframe(data)
+    st.write("Total number of records: " + str(data.shape[0]))
+elif data[all_conditions].shape[0] == 0 or (name =='' and (faculty + staff + full + part + assistant + associate + professor + other == 0)):
     st.write("No results found.")
 else:
     st.dataframe(data[all_conditions])
+    st.write("Total number of records: " + str(data[all_conditions].shape[0]))
