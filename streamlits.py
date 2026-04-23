@@ -22,9 +22,9 @@ role1, role2, role3, role4 = st.columns([0.2, 0.2, 0.2, 0.4])
 with role1:
     st.text("Type of Role:")
 with role2:
-    faculty = st.checkbox('Faculty')
+    faculty = st.checkbox('Faculty', value=True)
 with role3:
-    staff = st.checkbox('Staff')
+    staff = st.checkbox('Staff', value=True)
 
 if faculty and not staff:
     role_bool = data['Role'].str.contains('Faculty', case=False, na=False)
@@ -39,9 +39,9 @@ contract1, contract2, contract3, contract4 = st.columns([0.2, 0.2, 0.2, 0.4])
 with contract1:
     st.text("Contract type:")
 with contract2:
-    full = st.checkbox('Full-time')
+    full = st.checkbox('Full-time', value=True)
 with contract3:
-    part = st.checkbox('Part-time')
+    part = st.checkbox('Part-time', value=True)
 
 if full and not part:
     contract_bool = data['Contract'] == 'Full-time'
@@ -56,13 +56,13 @@ rank1, rank2, rank3, rank4, rank5, rank6 = st.columns([0.2,0.2,0.2,0.2,0.2,0.4])
 with rank1:
     st.text("Faculty Rank:")
 with rank2:
-    assistant = st.checkbox('Assistant')
+    assistant = st.checkbox('Assistant',value=True)
 with rank3:
-    associate = st.checkbox('Associate')
+    associate = st.checkbox('Associate',value=True)
 with rank4:
-    professor = st.checkbox('Professor')
+    professor = st.checkbox('Professor',value=True)
 with rank5:
-    other = st.checkbox('Other')
+    other = st.checkbox('Other',value=True)
 
 pos = data['Position'].fillna('')
 
@@ -120,4 +120,7 @@ else:
 
 all_conditions = dept_bool & role_bool & contract_bool & rank_bool & name_bool
 
-st.dataframe(data[all_conditions])
+if data[all_conditions].shape[0] == 0 or (name =='' and (faculty + staff + full + part + assistant + associate + professor + other == 0)):
+    st.write("No results found.")
+else:
+    st.dataframe(data[all_conditions])
