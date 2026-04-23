@@ -120,8 +120,4 @@ else:
 
 all_conditions = dept_bool & role_bool & contract_bool & rank_bool & name_bool
 
-if data[all_conditions].shape[0] == 0:
-    st.write("No results found.")
-    st.dataframe(data)
-else:
-    st.dataframe(data[all_conditions])
+st.dataframe(data[all_conditions])
