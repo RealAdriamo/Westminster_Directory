@@ -122,8 +122,8 @@ else:
 all_conditions = dept_bool & role_bool & contract_bool & rank_bool & name_bool
 
 if all:
-    st.dataframe(data)
-    st.write("Total number of records: " + str(data.shape[0]))
+    st.dataframe(data[dept_bool])
+    st.write("Total number of records: " + str(data[dept_bool].shape[0]))
 elif data[all_conditions].shape[0] == 0 or (name =='' and (faculty + staff + full + part + assistant + associate + professor + other == 0)):
     st.write("No results found.")
 else:
